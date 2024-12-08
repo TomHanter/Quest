@@ -693,15 +693,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             ""id"": ""8ca5364e-ba60-44e1-adfd-972b534c0bf7"",
             ""actions"": [
                 {
-                    ""name"": ""Jump"",
-                    ""type"": ""Button"",
-                    ""id"": ""7ff4121b-f280-4371-ae52-b3d21abdce01"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
                     ""name"": ""Move"",
                     ""type"": ""Button"",
                     ""id"": ""bdbb7e11-bc8c-4897-90ef-3542144c0a06"",
@@ -730,17 +721,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""4dc420b8-5324-436d-be11-0ff84968acc0"",
-                    ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Jump"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
                 {
                     ""name"": """",
                     ""id"": ""66f9d4a5-ae50-4973-b53f-fac0ccd2eaed"",
@@ -956,7 +936,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
         // Game
         m_Game = asset.FindActionMap("Game", throwIfNotFound: true);
-        m_Game_Jump = m_Game.FindAction("Jump", throwIfNotFound: true);
         m_Game_Move = m_Game.FindAction("Move", throwIfNotFound: true);
         m_Game_Intaract = m_Game.FindAction("Intaract", throwIfNotFound: true);
         m_Game_Submit = m_Game.FindAction("Submit", throwIfNotFound: true);
@@ -1185,7 +1164,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     // Game
     private readonly InputActionMap m_Game;
     private List<IGameActions> m_GameActionsCallbackInterfaces = new List<IGameActions>();
-    private readonly InputAction m_Game_Jump;
     private readonly InputAction m_Game_Move;
     private readonly InputAction m_Game_Intaract;
     private readonly InputAction m_Game_Submit;
@@ -1193,7 +1171,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     {
         private @Controls m_Wrapper;
         public GameActions(@Controls wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Jump => m_Wrapper.m_Game_Jump;
         public InputAction @Move => m_Wrapper.m_Game_Move;
         public InputAction @Intaract => m_Wrapper.m_Game_Intaract;
         public InputAction @Submit => m_Wrapper.m_Game_Submit;
@@ -1206,9 +1183,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_GameActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_GameActionsCallbackInterfaces.Add(instance);
-            @Jump.started += instance.OnJump;
-            @Jump.performed += instance.OnJump;
-            @Jump.canceled += instance.OnJump;
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
@@ -1222,9 +1196,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
 
         private void UnregisterCallbacks(IGameActions instance)
         {
-            @Jump.started -= instance.OnJump;
-            @Jump.performed -= instance.OnJump;
-            @Jump.canceled -= instance.OnJump;
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
             @Move.canceled -= instance.OnMove;
@@ -1315,7 +1286,6 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     }
     public interface IGameActions
     {
-        void OnJump(InputAction.CallbackContext context);
         void OnMove(InputAction.CallbackContext context);
         void OnIntaract(InputAction.CallbackContext context);
         void OnSubmit(InputAction.CallbackContext context);
