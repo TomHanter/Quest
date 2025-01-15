@@ -41,6 +41,7 @@ public class PlayerMoveController : MonoBehaviour
         {
             return;
         }
+
         if (!_stopMoving)
         {
             HandleHorizontalMovement();
