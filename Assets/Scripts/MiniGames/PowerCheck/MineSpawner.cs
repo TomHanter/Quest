@@ -1,5 +1,7 @@
+using Assets.Scripts.MiniGames.PowerCheck.GridCoordinates;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MineSpawner : MonoBehaviour
@@ -9,7 +11,8 @@ public class MineSpawner : MonoBehaviour
     // ============================
     [Header("Spawn Settings")]
     [SerializeField] private Transform CenterPoint;                         // Центр спавна мин
-    [SerializeField] private Vector2 spawnAreaSize = new Vector2(10, 10);   // Размер области спавна
+    public Vector2 spawnAreaSize = new Vector2(10, 10);                      // Размер области спавна
+
     [SerializeField] private Transform parentTransform;                     // Родительский объект для мин
     [SerializeField] private List<Transform> forbiddenSpawnPoints;          // Точки, где спавн запрещен
     [SerializeField] private float allowedDistanseForForrbidenSpawnPoint;   // Дистанция до точек где спавн запрещен
@@ -78,6 +81,8 @@ public class MineSpawner : MonoBehaviour
     private bool _isSpawn = false;
     private bool _isAdding = false;
 
+    private GridCordinates _gridCordinates;
+
     public IReadOnlyList<Mine> HealMines => healMineList.Minelist;
     public IReadOnlyList<Mine> DamageMines => damageMineList.Minelist;
     public IReadOnlyList<Mine> BuffMines => buffMineList.Minelist;
@@ -92,17 +97,16 @@ public class MineSpawner : MonoBehaviour
 
         healMineList.InitializeMines(HealMinePrefab, healCooldown, (number, cooldown, mineGameObject) => new HealMine(number, cooldown, mineGameObject));
         damageMineList.InitializeMines(DamageMinePrefab, damageCooldown, (number, cooldown, mineGameObject) => new DamageMine(number, cooldown, mineGameObject));
-        buffMineList.InitializeSpeedBuffMines(BuffMinePrefab, speedBufCooldown, speedBuf, buffTime, buffTimeBeforeExplosion, buffRadiusOfExplosion, buffDamage);
-        debuffMineList.InitializeSpeedBuffMines(DebuffMinePrefab, speedDebufCooldown, speedDebuf, debuffTime, debuffTimeBeforeExplosion, debuffRadiusOfExplosion, debuffDamage);
+        buffMineList.InitializeSpeedBuffMines(BuffMinePrefab, speedBufCooldown, speedBuf, buffTime, buffTimeBeforeExplosion, buffRadiusOfExplosion, buffDamage, false);
+        debuffMineList.InitializeSpeedBuffMines(DebuffMinePrefab, speedDebufCooldown, speedDebuf, debuffTime, debuffTimeBeforeExplosion, debuffRadiusOfExplosion, debuffDamage, true);        
 
-        //SpawnMines();
     }
 
     private void FixedUpdate()
     {
         if (onTestSpawn)
         {
-            Debug.Log("isSpawn = " + _isSpawn);
+            //Debug.Log("isSpawn = " + _isSpawn);
             SpawnMines();
         }
         if (onTestProgressionSpawn && !_isAdding)
@@ -111,22 +115,6 @@ public class MineSpawner : MonoBehaviour
         }
         //if (onTestProgressionSpawn) AddMinesToList(numberOfDebuffMines, 3, debufDelayOfSpawn);
         //SpawnMinesFromList(debuffMineList);
-    }
-
-    // Добавляет трансформы переданных мин в список запрещенных точек спавна.
-    private void AddForbiddenSpawnPoints(params Mine[] mines)
-    {
-        foreach (var mine in mines)
-        {
-            if (mine != null)
-            {
-                Transform mineTransform = mine.MineGameObject.transform;
-                if (!forbiddenSpawnPoints.Contains(mineTransform))
-                {
-                    forbiddenSpawnPoints.Add(mineTransform);
-                }
-            }
-        }
     }
 
     private void AddForbiddenSpawnPoints(List<Mine> mines)
@@ -205,14 +193,14 @@ public class MineSpawner : MonoBehaviour
                     buffRadiusOfExplosion, buffDamage, (number, cooldown, mineGameObject, speedbuff, buffcooldown,
                         buffTimeBeforeExplosion, buffRadiusOfExplosion, buffDamage) =>
                         new BuffSpeedMine(number, cooldown, mineGameObject, speedbuff, buffcooldown,
-                            buffTimeBeforeExplosion, buffRadiusOfExplosion, buffDamage));
+                            buffTimeBeforeExplosion, buffRadiusOfExplosion, buffDamage, false));
                 break;
             case 3:
                 this.debuffMineList.AddMine(DebuffMinePrefab, speedDebufCooldown, speedDebuf, debuffTime,
                     buffTimeBeforeExplosion, buffRadiusOfExplosion, debuffDamage, (number, cooldown, mineGameObject,
                         speedbuff, buffcooldown, buffTimeBeforeExplosion, buffRadiusOfExplosion, debuffDamage) =>
                         new BuffSpeedMine(number, cooldown, mineGameObject, speedbuff, buffcooldown,
-                            buffTimeBeforeExplosion, buffRadiusOfExplosion, debuffDamage));
+                            buffTimeBeforeExplosion, buffRadiusOfExplosion, debuffDamage, true));
                 break;
         }
     }
@@ -235,16 +223,22 @@ public class MineSpawner : MonoBehaviour
         float delay = mine.IsFirstSpawn ? 0f : cooldawn;
         yield return new WaitForSeconds(delay);
 
+        mine.IsFirstSpawn = false;
+
         Vector3 randomPosition;
         bool positionValid;
         int numOfIterations = 0;
 
         do
         {
-            int xPos = Mathf.RoundToInt(Random.Range(CenterPoint.position.x - spawnAreaSize.x / 2, CenterPoint.position.x + spawnAreaSize.x / 2));
-            int zPos = Mathf.RoundToInt(Random.Range(CenterPoint.position.z - spawnAreaSize.y / 2, CenterPoint.position.z + spawnAreaSize.y / 2));
+            Random.InitState(System.DateTime.Now.Millisecond); // Инициализация случайного генератора с текущим временем
+            
+            int randomRow = Mathf.RoundToInt(Random.Range(CenterPoint.position.x - spawnAreaSize.x / 2, CenterPoint.position.x + spawnAreaSize.x / 2));
+            int randomColumn = Mathf.RoundToInt(Random.Range(CenterPoint.position.z - spawnAreaSize.y / 2, CenterPoint.position.z + spawnAreaSize.y / 2));
 
-            randomPosition = new Vector3(xPos, yPositionOfSpawnMine, zPos);
+            //Vector2 cellposition = _gridCordinates.CordMatrix[randomRow][randomColumn].GlobalCenter; 
+
+            randomPosition = new Vector3(randomRow, yPositionOfSpawnMine, randomColumn);
             positionValid = true;
 
             foreach (Transform forbiddenPoint in forbiddenSpawnPoints)
