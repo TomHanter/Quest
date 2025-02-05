@@ -9,17 +9,10 @@ public class GameProcess : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private GameObject enemy;
 
-    // ============================
-    // Настройки игровых правил
+    // 
+    // Настройки игровых правил============================
     // ============================
     [Header("Game Rules")]
-    [SerializeField] private float delayBetweenMineSpawn;       // Пауза между спавном мин
-    [SerializeField] private int numberOfMinesSpawnEveryTime;   // Количество мин котторые будут заспавнены
-
-    public GameObject healMine;
-    public GameObject damageMine;
-    public GameObject speedBuffMine;
-    public GameObject speedDebufMine;
 
     IReadOnlyList<Mine> _healMines;
     IReadOnlyList<Mine> _damageMines;
@@ -56,16 +49,6 @@ public class GameProcess : MonoBehaviour
 
     private void FixedUpdate()
     {
-        //StartCoroutine(mineSpawner.AddAndSpawnMines(numberOfMinesSpawnEveryTime, 3, delayBetweenMineSpawn));
-
-        //int debuffMinesLastIndex = _debuffMines.Count - 1;
-        //int numOfAddMines = mineSpawner.GetNumOfDebuffSpawnMines();
-        //List<Mine> spawnedMines = new List<Mine>(); 
-        //while (numOfAddMines >= 0 && (debuffMinesLastIndex - numOfAddMines) >= 0)
-        //{
-        //    Mine spawnedMine = _debuffMines[debuffMinesLastIndex - numOfAddMines];
-        //    if(_debuffMines[debuffMinesLastIndex - numOfAddMines] != null) spawnedMines.Add(spawnedMine);
-        //}
         SubscribeToMineEvents(_debuffMines);
 
     }
@@ -159,7 +142,7 @@ public class GameProcess : MonoBehaviour
         MiniGamePlayer givedPlayerChar = givedPlayer.GetComponent<MiniGamePlayer>();
         MiniGamePlayer playerChar = player.GetComponent<MiniGamePlayer>();
         MiniGamePlayer enemyChar = enemy.GetComponent<MiniGamePlayer>();
-        
+
 
         if (givedMine is HealMine healMine)
         {
@@ -177,14 +160,14 @@ public class GameProcess : MonoBehaviour
             MineExplosion(buffSpeedMine, player, enemy);
         }
 
-        givedMine.SetActive(false); 
+        givedMine.SetActive(false);
         //mineSpawner.SpawnMine(givedMine);
     }
 
     private async void MineExplosion(BuffSpeedMine mine, params GameObject[] objects)
     {
         Vector3 initialMinePosition = mine.MineGameObject.transform.position;
-        
+
         // Ждем паузу в 3 секунды
         await Task.Delay(mine.GetTimeBeforeExplosion());
 
