@@ -2,18 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 using UnityEngine;
+using Zenject;
 
 public class GameProcess : MonoBehaviour
 {
-    [SerializeField] private MineSpawner mineSpawner;
-    [SerializeField] private GameObject player;
-    [SerializeField] private GameObject enemy;
-
-    // 
-    // Настройки игровых правил============================
-    // ============================
-    [Header("Game Rules")]
+    [SerializeField] private MineSpawner _mineSpawner;
+    [SerializeField] private GameObject _player;
+    [SerializeField] private GameObject _enemy;
 
     IReadOnlyList<Mine> _healMines;
     IReadOnlyList<Mine> _damageMines;
@@ -26,23 +23,32 @@ public class GameProcess : MonoBehaviour
     private MiniGamePlayer playerChar;
     private MiniGamePlayer enemyChar;
 
+    [Inject]
+    private void Construct([Inject(Id = "Player")] PlayerMove player, [Inject(Id = "Enemy")] AIController enemy)
+    {
+        _player = player.gameObject;
+        _enemy = enemy.gameObject;
+    }
+
     public event Action<string, string> OnEndGame;
     void Start()
     {
-        _playerMove = player.GetComponent<PlayerMove>();
-        _enemyMove = enemy.GetComponent<AIController>();
+        _mineSpawner = GameObject.FindGameObjectWithTag("MineSpawner").GetComponent<MineSpawner>();
 
-        playerChar = player.GetComponent<MiniGamePlayer>();
-        enemyChar = enemy.GetComponent<MiniGamePlayer>();
+        _playerMove = _player.GetComponent<PlayerMove>();
+        _enemyMove = _enemy.GetComponent<AIController>();
+
+        playerChar = _player.GetComponent<MiniGamePlayer>();
+        enemyChar = _enemy.GetComponent<MiniGamePlayer>();
 
         playerChar.OnSpeedChanged += _playerMove.ChangeSpeed;
         enemyChar.OnSpeedChanged += _enemyMove.ChangeSpeed;
 
         // Получаем список мин с MineSpawner
-        _healMines = mineSpawner.HealMines;
-        _damageMines = mineSpawner.DamageMines;
-        _buffMines = mineSpawner.BuffMines;
-        _debuffMines = mineSpawner.DebuffMines;
+        _healMines = _mineSpawner.HealMines;
+        _damageMines = _mineSpawner.DamageMines;
+        _buffMines = _mineSpawner.BuffMines;
+        _debuffMines = _mineSpawner.DebuffMines;
 
         // Для каждой мины подписываемся на событие
         SubscribeToMineEvents(_healMines);
@@ -166,8 +172,8 @@ public class GameProcess : MonoBehaviour
     private void HandleMineTriggered(Mine givedMine, GameObject givedPlayer)
     {
         MiniGamePlayer givedPlayerChar = givedPlayer.GetComponent<MiniGamePlayer>();
-        MiniGamePlayer playerChar = player.GetComponent<MiniGamePlayer>();
-        MiniGamePlayer enemyChar = enemy.GetComponent<MiniGamePlayer>();
+        MiniGamePlayer playerChar = _player.GetComponent<MiniGamePlayer>();
+        MiniGamePlayer enemyChar = _enemy.GetComponent<MiniGamePlayer>();
 
 
         if (givedMine is HealMine healMine)
@@ -183,7 +189,7 @@ public class GameProcess : MonoBehaviour
         }
         else if (givedMine is BuffSpeedMine buffSpeedMine)
         {
-            MineExplosion(buffSpeedMine, player, enemy);
+            MineExplosion(buffSpeedMine, _player, _enemy);
         }
 
         givedMine.SetActive(false);

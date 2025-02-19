@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
+using Zenject;
 
 public class MineSpawner : MonoBehaviour
 {
@@ -14,7 +16,7 @@ public class MineSpawner : MonoBehaviour
     public Vector2 spawnAreaSize = new Vector2(10, 10);                      // Размер области спавна
 
     [SerializeField] private Transform parentTransform;                     // Родительский объект для мин
-    [SerializeField] private List<Transform> forbiddenSpawnPoints;          // Точки, где спавн запрещен
+    [SerializeField] private List<Transform> _forbiddenSpawnPoints;          // Точки, где спавн запрещен
     [SerializeField] private float allowedDistanseForForrbidenSpawnPoint;   // Дистанция до точек где спавн запрещен
     [SerializeField] private bool onTestSpawn;                              // Включение тестовой прогонки спавна мин при большом количестве итераций
     [SerializeField] private bool onTestProgressionSpawn;                   // Включение тестовой прогонки спавна мин с прогресией
@@ -88,6 +90,13 @@ public class MineSpawner : MonoBehaviour
     public IReadOnlyList<Mine> BuffMines => buffMineList.Minelist;
     public IReadOnlyList<Mine> DebuffMines => debuffMineList.Minelist;
 
+    [Inject]
+    private void Construct([Inject(Id = "Player")] PlayerMove player, [Inject(Id = "Enemy")] AIController enemy)
+    {
+        _forbiddenSpawnPoints.Add(player.gameObject.transform);
+        _forbiddenSpawnPoints.Add(enemy.gameObject.transform);
+    }
+
     void Awake()
     {
         healMineList = new MineList(numberOfHealMines);
@@ -124,9 +133,9 @@ public class MineSpawner : MonoBehaviour
             if (mine != null)
             {
                 Transform mineTransform = mine.MineGameObject.transform;
-                if (!forbiddenSpawnPoints.Contains(mineTransform))
+                if (!_forbiddenSpawnPoints.Contains(mineTransform))
                 {
-                    forbiddenSpawnPoints.Add(mineTransform);
+                    _forbiddenSpawnPoints.Add(mineTransform);
                 }
             }
         }
@@ -241,7 +250,7 @@ public class MineSpawner : MonoBehaviour
             randomPosition = new Vector3(randomRow, CenterPoint.position.y, randomColumn);
             positionValid = true;
 
-            foreach (Transform forbiddenPoint in forbiddenSpawnPoints)
+            foreach (Transform forbiddenPoint in _forbiddenSpawnPoints)
             {
                 numOfIterations++;
                 if (Vector3.Distance(randomPosition, forbiddenPoint.position) < allowedDistanseForForrbidenSpawnPoint)

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 [RequireComponent(typeof(MiniGamePlayer))]
 public class PlayerMove : MonoBehaviour
@@ -16,6 +17,12 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody _rb;
     private MiniGamePlayer _playerChar;
     private bool _underDebuff;
+
+    [Inject]
+    private void Construct(Transform cameraTransform)
+    {
+        _cameraTrnsform = cameraTransform;
+    }
 
     private void Awake()
     {
