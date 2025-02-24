@@ -1,7 +1,10 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using static UnityEditor.Experimental.GraphView.GraphView;
+using Zenject;
 using static UnityEngine.GraphicsBuffer;
 
 
@@ -20,6 +23,7 @@ public class AIController : MonoBehaviour
     [SerializeField] private float _damageGlobalModifier = 1f;
     [SerializeField] private float _healGlobalModifier = 1f;
     [SerializeField] private float _buffGlobalModifier = 1f;
+    [SerializeField] private float _slowness = 1f;
 
     [Header("Risk Calculation")]
     [SerializeField] private float _riskDistanceThreshold = 5.0f;
@@ -31,13 +35,22 @@ public class AIController : MonoBehaviour
     private bool _underDebuff;
     private float _lockedY;
     private Vector3 _currentTarget;
+    private Rigidbody _rb;
 
     private int _currentNumOfDamage = 0;
     private int _currentNumOfHeal = 0;
     private int _currentNumOfBuff = 0;
 
+    [Inject]
+    private void Construct([Inject(Id = "Player")] PlayerMove player)
+    {
+        _playerTransform = player.gameObject.transform;
+        _playerCharacteristics = player.gameObject.GetComponent<MiniGamePlayer>();
+    }
+
     private void Start()
     {
+        _mineSpawner = GameObject.FindGameObjectWithTag("MineSpawner").GetComponent<MineSpawner>();
         if (_agent == null) _agent = GetComponent<NavMeshAgent>();
         if (_agent != null)
         {
@@ -49,33 +62,32 @@ public class AIController : MonoBehaviour
         _baseAgentSpeed = _thisCharacteristics.Speed;
         _lockedY = transform.position.y;
         if (!HasTargetQueue())
-            SelectNextTarget();
+            StartSelectingNextTarget(_slowness);
+        //_rb = this.GetComponent<Rigidbody>();
     }
 
     private void Update()
     {
         if (!HasTargetQueue() || CheckIsPickUpsUpdate())
-            SelectNextTarget();
-        //(_agent.remainingDistance <= _agent.stoppingDistance || !MineExist(_agent.destination /*&& _agent.velocity.magnitude < 0.1f*/) /*&& _agent.pathStatus == NavMeshPathStatus.PathPartial*/)
-        //string allTargets = "";
-        //bool dist = _agent.remainingDistance <= _agent.stoppingDistance;
-        //bool mine = !MineExist(_currentTarget);
-        //bool hashQueue = HasTargetQueue();
-        //allTargets += "_agent.dist " + dist + " ";
-        //allTargets += "mine not exist " + mine + " ";
-        //allTargets += "queue exist " + hashQueue + " ";
-        //Debug.Log(allTargets);
+            StartSelectingNextTarget(_slowness);
 
         if (!_agent.pathPending && HasTargetQueue() && (!MineExist(_currentTarget) || _agent.remainingDistance <= _agent.stoppingDistance))
         {
             SetNextDestination();
         }
 
+
         transform.position = new Vector3(transform.position.x, _lockedY, transform.position.z);
+        if (_agent.speed == 0)
+        {
+            transform.position = transform.position;
+        }
     }
 
-    private void SelectNextTarget()
+    private IEnumerator SelectNextTargetCoroutine(float delay)
     {
+        yield return new WaitForSeconds(delay); // Ожидание перед выполнением
+
         List<Mine> allMines = new List<Mine>();
 
         if (_mineSpawner.HealMines.Count > 0) allMines.Add(FindBestMine(_mineSpawner.HealMines));
@@ -89,6 +101,12 @@ public class AIController : MonoBehaviour
         {
             _targetsQueue.Enqueue(mine.MineGameObject.transform.position);
         }
+    }
+
+    // Запуск корутины
+    public void StartSelectingNextTarget(float delay)
+    {
+        StartCoroutine(SelectNextTargetCoroutine(delay));
     }
 
     private Mine FindBestMine(IReadOnlyList<Mine> mines)

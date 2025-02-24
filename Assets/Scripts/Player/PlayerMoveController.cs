@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 [RequireComponent(typeof(BoxCollider))]
 [RequireComponent(typeof(Rigidbody))]
@@ -11,8 +12,8 @@ public class PlayerMoveController : MonoBehaviour
     [SerializeField] private float _runSpeed = 6.0f;
     [SerializeField] private float _rotationSpeed = 20f;
     [SerializeField] private float _interval = 1f;
-    [SerializeField] private Transform _cameraTrnsform;
 
+    [SerializeField] private Transform _cameraTrnsform;
     private BoxCollider _coll;
     private Rigidbody _rb;
     private bool _stopMoving = false;
@@ -21,6 +22,11 @@ public class PlayerMoveController : MonoBehaviour
 
     public bool IsMove = false;
 
+    [Inject]
+    private void Construct(Transform cameraTransform)
+    {
+        _cameraTrnsform = cameraTransform;
+    }
 
     private void Awake()
     {
@@ -131,7 +137,7 @@ public class PlayerMoveController : MonoBehaviour
     {
         IsMove = true;
         Vector2 moveInput = InputManager.GetInstance().GetMoveDirection();
-        Vector3 movePlayerInputDirection = new Vector3(moveInput.x, _thisTransform.position.y, moveInput.y).normalized;
+        Vector3 movePlayerInputDirection = new Vector3(moveInput.x, 0, moveInput.y).normalized;
         Vector3 moveDirection = Vector3.zero;
 
         // Получение угла из ориентации камеры

@@ -1,4 +1,5 @@
 using UnityEngine;
+using Zenject;
 
 public sealed class SaveLoadManager : MonoBehaviour
 {
@@ -8,9 +9,15 @@ public sealed class SaveLoadManager : MonoBehaviour
 
     //private int _isSave = 0;
 
+    [Inject]
+    private void Construct(PlayerMoveController controller)
+    {
+        _playerTransform = controller.transform;
+    }
+
     private void Awake()
     {
-        FindPlayer();
+        //FindPlayer();
 
         // Инициализация массива после получения трансформа игрока
         saveLoaders = new ISaveLoader[]
