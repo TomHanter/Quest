@@ -51,7 +51,7 @@ public class CameraMovementController : MonoBehaviour
     {
         UpdateSquarePosition();
         FollowPlayer();
-        HandleZoom();
+        //HandleZoom();
     }
 
     void UpdateSquarePosition()
@@ -100,16 +100,16 @@ public class CameraMovementController : MonoBehaviour
         transform.LookAt(squareCenter);
     }
 
-    void HandleZoom()
-    {
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
-        if (scroll != 0)
-        {
-            float newSize = offset.magnitude - scroll * zoomSpeed;
-            newSize = Mathf.Clamp(newSize, minZoom, maxZoom);
-            offset = offset.normalized * newSize;
-        }
-    }
+    //void HandleZoom()
+    //{
+    //    float scroll = Input.GetAxis("Mouse ScrollWheel");
+    //    if (scroll != 0)
+    //    {
+    //        float newSize = offset.magnitude - scroll * zoomSpeed;
+    //        newSize = Mathf.Clamp(newSize, minZoom, maxZoom);
+    //        offset = offset.normalized * newSize;
+    //    }
+    //}
 
     void OnDrawGizmos()
     {
