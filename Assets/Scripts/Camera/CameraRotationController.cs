@@ -12,8 +12,8 @@ public class CameraRotationController : MonoBehaviour
     private void Awake()
     {
         controls = new Controls();
-        controls.Game.CameraRotate.performed += ctx => rotationInput = ctx.ReadValue<float>();
-        controls.Game.CameraRotate.canceled += ctx => rotationInput = 0f;
+        //controls.Game.CameraRotate.performed += ctx => rotationInput = ctx.ReadValue<float>();
+        //controls.Game.CameraRotate.canceled += ctx => rotationInput = 0f;
     }
 
     private void OnEnable()

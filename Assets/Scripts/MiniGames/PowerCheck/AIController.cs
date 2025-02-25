@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
-using static UnityEditor.Experimental.GraphView.GraphView;
 using Zenject;
-using static UnityEngine.GraphicsBuffer;
 
 
 [RequireComponent(typeof(NavMeshAgent))]
