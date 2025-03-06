@@ -48,7 +48,7 @@ public class PlayerMoveController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(DialogueManager.GetInstance().DialogueIsPlaying)
+        if(DialogueManager.GetInstance() != null && DialogueManager.GetInstance().DialogueIsPlaying)
         {
             IsMove = false;
             return;

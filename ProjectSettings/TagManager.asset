@@ -6,6 +6,9 @@ TagManager:
   tags:
   - MineSpawner
   - PlayerSpawnPoint
+  - ImageField
+  - TextField
+  - MixPannelElement
   layers:
   - Default
   - TransparentFX
