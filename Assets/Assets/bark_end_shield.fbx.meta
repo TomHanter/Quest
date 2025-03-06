@@ -8,24 +8,24 @@ ModelImporter:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: shield_1k_BaseColor
-    second: {fileID: 2800000, guid: d56148d4dc53d5b4aa82936d370a0b81, type: 3}
+    second: {fileID: 2800000, guid: ab347b6d572b7b142a7419edc223cfd4, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: shield_1k_Metallic
-    second: {fileID: 2800000, guid: 1a2b21e02bc73de46956c9042a8ca1c6, type: 3}
+    second: {fileID: 2800000, guid: 045e09ce6c06e5943bc4964f94cca754, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: shield_1k_Normal
-    second: {fileID: 2800000, guid: 1734191ee956c5741a016f03bd50bb25, type: 3}
+    second: {fileID: 2800000, guid: ba5c128f041e2b64fb9067c0958d007b, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
       name: shield_1k_Roughness
-    second: {fileID: 2800000, guid: b927f74ba8466064c81359c3a95427f2, type: 3}
+    second: {fileID: 2800000, guid: 0821b064db4308c42ad8b90796dd2fd5, type: 3}
   materials:
-    materialImportMode: 2
+    materialImportMode: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1
