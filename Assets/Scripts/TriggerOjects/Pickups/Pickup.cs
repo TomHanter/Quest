@@ -9,6 +9,8 @@ public class Pickup : MonoBehaviour
     [field: SerializeField] public string HideDescription { get; set; }
     [field: SerializeField] public string Picture { get; set; }
     [field: SerializeField] public bool Rendered { get; set; }
+    [field: SerializeField] public bool RenderedOnScreen { get; set; }
+
 
     // Первый словарь: string : string
     [SerializeField] private SerializableDictionary<string, string> simpleDict = new SerializableDictionary<string, string>();

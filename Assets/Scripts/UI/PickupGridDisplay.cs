@@ -10,10 +10,25 @@ public class PickupGridDisplay : MonoBehaviour
     [SerializeField] private Vector2 gridSpacing = new Vector2(10, 10); // Отступы между элементами сетки
 
     private List<GameObject> pickupUIElements = new List<GameObject>();
+    private int lastPickupCount = 0; // Переменная для хранения последнего известного количества пикапов
 
     private void OnEnable()
     {
         RefreshGrid();
+        lastPickupCount = AssembledPickups.Count; // Инициализируем начальное количество
+    }
+
+    private void Update()
+    {
+        // Получаем текущее количество пикапов
+        int currentPickupCount = AssembledPickups.Count;
+
+        // Если количество изменилось
+        if (currentPickupCount != lastPickupCount)
+        {
+            RefreshGrid(); // Обновляем сетку
+            lastPickupCount = currentPickupCount; // Обновляем сохраненное значение
+        }
     }
 
     public void RefreshGrid()
