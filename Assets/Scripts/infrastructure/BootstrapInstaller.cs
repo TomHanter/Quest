@@ -7,6 +7,6 @@ public class BootstrapInstaller : MonoInstaller
 {
     public override void InstallBindings()
     {
-        Debug.Log("BootstrapInstaller успешно запущен");
+        //Debug.Log("BootstrapInstaller успешно запущен");
     }
 }

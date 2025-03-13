@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class InteractManager : MonoBehaviour
 {
-
-    private ITriggerable currentTriggerable; 
+    private ITriggerable currentTriggerable;
+    private GameObject interactionIndicator; // Добавляем переменную для хранения индикатора
 
     private void OnTriggerEnter(Collider collider)
     {
@@ -14,6 +14,13 @@ public class InteractManager : MonoBehaviour
 
         if (currentTriggerable != null)
         {
+            // Ищем компонент InteractionIndicator на объекте
+            interactionIndicator = collider.gameObject.transform.Find("InteractionIndicator")?.gameObject;
+
+            if (interactionIndicator != null)
+            {
+                interactionIndicator.SetActive(true); // Активируем индикатор
+            }
             //Debug.Log("Игрок может взаимодействовать с объектом.");
         }
     }
@@ -22,7 +29,13 @@ public class InteractManager : MonoBehaviour
     {
         if (collider.gameObject.GetComponent<ITriggerable>() == currentTriggerable)
         {
+            if (interactionIndicator != null)
+            {
+                interactionIndicator.SetActive(false); // Деактивируем индикатор
+            }
+
             currentTriggerable = null;
+            interactionIndicator = null; // Очищаем ссылку на индикатор
             //Debug.Log("Игрок покинул зону взаимодействия.");
         }
     }
@@ -52,6 +65,11 @@ public class InteractManager : MonoBehaviour
         {
             //Debug.Log("Игрок взаимодействует с объектом.");
             currentTriggerable.Trrigered();
+
+            if (interactionIndicator != null)
+            {
+                interactionIndicator.SetActive(false); // Деактивируем индикатор после взаимодействия
+            }
         }
     }
 }

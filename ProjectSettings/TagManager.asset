@@ -6,6 +6,10 @@ TagManager:
   tags:
   - MineSpawner
   - PlayerSpawnPoint
+  - ImageField
+  - TextField
+  - MixPannelElement
+  - DisplayForPickUp
   layers:
   - Default
   - TransparentFX

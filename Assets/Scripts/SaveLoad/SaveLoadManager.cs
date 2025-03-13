@@ -1,9 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
 public sealed class SaveLoadManager : MonoBehaviour
 {
-    private static Transform _playerTransform ;
+    private static Transform _playerTransform;
 
     private ISaveLoader[] saveLoaders;
 
@@ -23,7 +24,7 @@ public sealed class SaveLoadManager : MonoBehaviour
         saveLoaders = new ISaveLoader[]
         {
             new PlayerSaveLoader(_playerTransform),
-            //new MissionsSaveLoader(),
+            //new CollectionSaveLoader(AssembledPickups.GetAllPickups()),
         };
     }
 
