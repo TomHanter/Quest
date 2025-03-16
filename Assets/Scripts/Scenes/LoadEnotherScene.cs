@@ -7,6 +7,7 @@ public class LoadEnotherScene : MonoBehaviour
 {
     [SerializeField] private List<DoorForEnotherScene> doors; // Список объектов DoorForEnotherScene
     [SerializeField] private Transform _playerSpawnPoint;     // Точка спавна игрока
+    //[SerializeField] private SaveLoadManager _saveLoadManager;
 
     private void Start()
     {
@@ -23,7 +24,8 @@ public class LoadEnotherScene : MonoBehaviour
     public void LoadScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
-        
+        //_saveLoadManager.LoadGame();
+
         // После загрузки сцены перемещаем игрока в точку спавна
         SceneManager.sceneLoaded += OnSceneLoaded;
     }

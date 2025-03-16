@@ -17,6 +17,7 @@ public class PlayerMove : MonoBehaviour
     private Rigidbody _rb;
     private MiniGamePlayer _playerChar;
     private bool _underDebuff;
+    private GameObject _debuffEffect;
 
     [Inject]
     private void Construct(Transform cameraTransform)
@@ -32,11 +33,41 @@ public class PlayerMove : MonoBehaviour
 
         _characteristics = this.GetComponent<MiniGamePlayer>();
         _runDefaultSpeed = _characteristics.Speed;
+
+        FindDebuffEffect();
     }
 
     private void FixedUpdate()
     {
+        if (_underDebuff && _debuffEffect != null)
+        {
+            _debuffEffect.SetActive(true);
+        }
+        else if (_debuffEffect != null)
+        {
+            _debuffEffect.SetActive(false);
+        }
         HandleHorizontalMovement();
+    }
+
+    private void FindDebuffEffect()
+    {
+        // Получаем все дочерние объекты
+        Transform[] children = GetComponentsInChildren<Transform>(true);
+        foreach (Transform child in children)
+        {
+            if (child.name == "Indication")
+            {
+                _debuffEffect = child.gameObject;
+                _debuffEffect.SetActive(false); // Деактивируем объект при старте
+                break; // Прерываем поиск после нахождения
+            }
+        }
+
+        if (_debuffEffect == null)
+        {
+            Debug.LogWarning("Дочерний объект с именем 'Indication' не найден.");
+        }
     }
 
     public void ChangeSpeed(float speed, bool isDebuff)

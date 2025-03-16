@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,7 @@ namespace Assets.Scripts.TriggerOjects
 {
     internal class PickupItems : MonoBehaviour, ITriggerable
     {
+        [SerializeField] private GameObject _textInd;
         private Pickup _pickup;
         private ToggleObjectOnButtonPress _toggleScript;
 
@@ -24,8 +26,20 @@ namespace Assets.Scripts.TriggerOjects
             _pickup = GetComponent<Pickup>();
         }
 
+        private IEnumerator ShowIndication()
+        {
+            if (_textInd != null)
+            {
+                if (!_textInd.activeSelf) _textInd.SetActive(true);
+                yield return new WaitForSeconds(2f);
+                if (_textInd.activeSelf) _textInd.SetActive(false);
+
+            }
+        }
+
         public void Trrigered()
         {
+            StartCoroutine(ShowIndication());
             Debug.Log("подобрал предмет!");
             AssembledPickups.AddPickup(_pickup);
             string allItems = "";

@@ -42,6 +42,11 @@ public static class Repository
 
     public static void SetData<T>(T value)
     {
+        var settings = new JsonSerializerSettings
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+            Formatting = Formatting.Indented
+        };
         var serializedData = JsonConvert.SerializeObject(value);
         currentState[typeof(T).Name] = serializedData;
     }

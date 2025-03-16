@@ -16,7 +16,7 @@ public class PlayerMoveController : MonoBehaviour
     [SerializeField] private Transform _cameraTrnsform;
     private BoxCollider _coll;
     private Rigidbody _rb;
-    private bool _stopMoving = false;
+    private bool _catchPlatform = false;
     private MovemtForMOvingObjects _movementComponent;
     private Transform _thisTransform;
 
@@ -54,11 +54,11 @@ public class PlayerMoveController : MonoBehaviour
             return;
         }
 
-        if (!_stopMoving)
+        if (!_catchPlatform)
         {
             HandleHorizontalMovement();
         }
-        else if (_stopMoving)
+        else if (_catchPlatform)
         {
             IsMove = false;
             MoveToPlatform(_interval);
@@ -75,8 +75,8 @@ public class PlayerMoveController : MonoBehaviour
             {
                 //Debug.Log("Найден ближайший объект с компонентом MovemtForMOvingObjects: " + closestCollidedObject.name);
                 _movementComponent.ChangeNeedToMovie();
-                _stopMoving = !_stopMoving;
-                Debug.Log("Player:" + _stopMoving);
+                _catchPlatform = !_catchPlatform;
+                Debug.Log("Player:" + _catchPlatform);
             }
         }
         else

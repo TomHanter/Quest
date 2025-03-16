@@ -27,7 +27,6 @@ namespace Unity.AI.Navigation.Samples
 
         void Update()
         {
-            //Debug.Log(s_NeedsNavMeshUpdate);
             if (s_NeedsNavMeshUpdate)
             {
                 m_Surface.UpdateNavMesh(m_Surface.navMeshData);

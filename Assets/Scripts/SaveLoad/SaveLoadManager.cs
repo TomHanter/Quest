@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using Zenject;
 
@@ -7,8 +9,6 @@ public sealed class SaveLoadManager : MonoBehaviour
     private static Transform _playerTransform;
 
     private ISaveLoader[] saveLoaders;
-
-    //private int _isSave = 0;
 
     [Inject]
     private void Construct(PlayerMoveController controller)
@@ -23,9 +23,34 @@ public sealed class SaveLoadManager : MonoBehaviour
         // Инициализация массива после получения трансформа игрока
         saveLoaders = new ISaveLoader[]
         {
-            new PlayerSaveLoader(_playerTransform),
-            //new CollectionSaveLoader(AssembledPickups.GetAllPickups()),
+            //new PlayerSaveLoader(_playerTransform),
+            new CollectionSaveLoader(AssembledPickups.GetAllPickups()),
         };
+        //WriteJsonToFile();
+        LoadGame();
+    }
+
+    private void WriteJsonToFile()
+    {
+        // Создаем JSON-строку
+        string jsonString = @"
+{
+  ""List`1"": ""[{\""Name\"":\""Conc1\"",\""Type\"":\""Type\"",\""Description\"":\""Conc1\"",\""HideDescription\"":\""Hide Description\"",\""Picture\"":\""Picture\"",\""Rendered\"":false,\""RenderedOnScreen\"":false,\""SimpleDict\"":{},\""NestedDict\"":{},\""NestedList\"":[]},{\""Name\"":\""Conc2\"",\""Type\"":\""Type\"",\""Description\"":\""Conc2\"",\""HideDescription\"":\""Hide Description\"",\""Picture\"":\""Picture\"",\""Rendered\"":false,\""RenderedOnScreen\"":false,\""SimpleDict\"":{},\""NestedDict\"":{},\""NestedList\"":[]},{\""Name\"":\""Conc3\"",\""Type\"":\""Type\"",\""Description\"":\""Conc3\"",\""HideDescription\"":\""Hide Description\"",\""Picture\"":\""Picture\"",\""Rendered\"":false,\""RenderedOnScreen\"":false,\""SimpleDict\"":{},\""NestedDict\"":{},\""NestedList\"":[]},{\""Name\"":\""Conc4\"",\""Type\"":\""Type\"",\""Description\"":\""Conc4\"",\""HideDescription\"":\""Hide Description\"",\""Picture\"":\""Picture\"",\""Rendered\"":false,\""RenderedOnScreen\"":false,\""SimpleDict\"":{},\""NestedDict\"":{},\""NestedList\"":[]},{\""Name\"":\""Conc5\"",\""Type\"":\""Type\"",\""Description\"":\""Conc5\"",\""HideDescription\"":\""Hide Description\"",\""Picture\"":\""Picture\"",\""Rendered\"":false,\""RenderedOnScreen\"":false,\""SimpleDict\"":{},\""NestedDict\"":{},\""NestedList\"":[]}]""
+}";
+
+        // Путь к файлу, куда будет записан JSON
+        string filePath = Path.Combine(Application.persistentDataPath, "saveData.json");
+
+        // Записываем JSON-строку в файл
+        try
+        {
+            File.WriteAllText(filePath, jsonString);
+            Debug.Log("JSON data successfully written to file: " + filePath);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("Failed to write JSON data to file: " + e.Message);
+        }
     }
 
     private void FindPlayer()
@@ -39,8 +64,7 @@ public sealed class SaveLoadManager : MonoBehaviour
         {
             Debug.LogError("Player object with tag 'Player' not found!");
         }
-    }
-    
+    }    
     
     public void LoadGame()
     {

@@ -15,18 +15,18 @@ public class PickupGridDisplay : MonoBehaviour
     private void OnEnable()
     {
         RefreshGrid();
-        lastPickupCount = AssembledPickups.Count; // Инициализируем начальное количество
+        lastPickupCount = AssembledPickups.GetRenderedPickups().Count; // Инициализируем начальное количество
     }
 
     private void Update()
     {
         // Получаем текущее количество пикапов
-        int currentPickupCount = AssembledPickups.Count;
+        int currentPickupCount = AssembledPickups.GetRenderedPickups().Count;
 
         // Если количество изменилось
         if (currentPickupCount != lastPickupCount)
         {
-            RefreshGrid(); // Обновляем сетку
+            RefreshGrid();  // Обновляем сетку
             lastPickupCount = currentPickupCount; // Обновляем сохраненное значение
         }
     }
