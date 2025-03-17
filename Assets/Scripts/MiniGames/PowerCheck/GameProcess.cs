@@ -31,6 +31,7 @@ public class GameProcess : MonoBehaviour
     }
 
     public event Action<string, string> OnEndGame;
+
     void Start()
     {
         _mineSpawner = GameObject.FindGameObjectWithTag("MineSpawner").GetComponent<MineSpawner>();
@@ -55,23 +56,23 @@ public class GameProcess : MonoBehaviour
         SubscribeToMineEvents(_damageMines);
         SubscribeToMineEvents(_buffMines);
         SubscribeToMineEvents(_debuffMines);
-        //mineSpawner.SpawnMines();
     }
 
     private void FixedUpdate()
     {
+        //if (_isPanelActive) return;
         SubscribeToMineEvents(_debuffMines);
         if ((playerChar.Health <= 0 && !playerChar.isDead) || (enemyChar.Health <= 0 && !enemyChar.isDead))
         {
-            string winer, loser;
+            string winner, loser;
             if (playerChar.Health > 0)
             {
-                winer = playerChar.Name;
+                winner = playerChar.Name;
                 loser = enemyChar.Name;
             }
             else
             {
-                winer = enemyChar.Name;
+                winner = enemyChar.Name;
                 loser = playerChar.Name;
             }
 
@@ -80,11 +81,10 @@ public class GameProcess : MonoBehaviour
             playerChar.isDead = true;
             enemyChar.isDead = true;
 
-            OnEndGame?.Invoke(winer,loser);
-        } 
-
+            OnEndGame?.Invoke(winner, loser);
+        }
     }
-
+        
     private void SubscribeToMineEvents(IEnumerable<Mine> mines)
     {
         foreach (Mine mine in mines)
@@ -111,7 +111,6 @@ public class GameProcess : MonoBehaviour
 
         if (mine != null)
         {
-            //Debug.Log($"Мина с номером {mine.GetNumber()} вызвала событие.");
             HandleMineTriggered(mine, objectWhoTriger);
         }
         else
@@ -126,28 +125,24 @@ public class GameProcess : MonoBehaviour
         Mine mine = FindMineInList(triggeredObject, _healMines);
         if (mine != null)
         {
-            //Debug.Log("это мина хила");
             return mine;
         }
 
         mine = FindMineInList(triggeredObject, _damageMines);
         if (mine != null)
         {
-            //Debug.Log("это мина дамага");
             return mine;
         }
 
         mine = FindMineInList(triggeredObject, _buffMines);
         if (mine != null)
         {
-            //Debug.Log("это мина ускорения");
             return mine;
         }
 
         mine = FindMineInList(triggeredObject, _debuffMines);
         if (mine != null)
         {
-            //Debug.Log("это мина замедления");
             return mine;
         }
 
@@ -164,17 +159,15 @@ public class GameProcess : MonoBehaviour
                 return mine;
             }
         }
-
+            
         return null;
     }
-
 
     private void HandleMineTriggered(Mine givedMine, GameObject givedPlayer)
     {
         MiniGamePlayer givedPlayerChar = givedPlayer.GetComponent<MiniGamePlayer>();
         MiniGamePlayer playerChar = _player.GetComponent<MiniGamePlayer>();
         MiniGamePlayer enemyChar = _enemy.GetComponent<MiniGamePlayer>();
-
 
         if (givedMine is HealMine healMine)
         {
@@ -193,7 +186,6 @@ public class GameProcess : MonoBehaviour
         }
 
         givedMine.SetActive(false);
-        //mineSpawner.SpawnMine(givedMine);
     }
 
     private async void MineExplosion(BuffSpeedMine mine, params GameObject[] objects)
@@ -208,7 +200,5 @@ public class GameProcess : MonoBehaviour
 
         // Передаем найденные объекты в метод BuffSpeedList
         await mine.BuffSpeedList(affectedPlayers);
-
-        //Debug.Log("Mine explosion completed, buff applied to nearby players.");
     }
 }

@@ -8,6 +8,12 @@ public class PokemonNPC : MonoBehaviour
     [SerializeField] private GameObject _dialogPanel;
     [SerializeField] private CameraSwitch _switch;
     [SerializeField] private GameProcess _miniGameProcessor;
+    [SerializeField] private GameObject _menu;
+
+    private GameObject _winPanel;
+    private GameObject _losePanel;
+
+    private bool _isPanelActive = false;
 
     private bool _isMiniGameActive = false; // Отвечает за старт мини-игры
     private bool _isMiniGameFinished = false; // Отвечает за конец мини-игры
@@ -32,7 +38,36 @@ public class PokemonNPC : MonoBehaviour
         {
             StartMiniGame();
         }
+        if (_menu != null)
+        {
+            _winPanel = _menu.transform.Find("WinPanel")?.gameObject;
+            _losePanel = _menu.transform.Find("LosePanel")?.gameObject;
+
+            if (_winPanel == null || _losePanel == null)
+            {
+                Debug.LogWarning("Панели WinPanel или LosePanel не найдены в объекте _menu.");
+            }
+            else
+            {
+                // Деактивируем панели при старте
+                _winPanel.SetActive(false);
+                _losePanel.SetActive(false);
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Объект _menu не назначен.");
+        }
     }
+
+    private void ActivatePanel(GameObject panel)
+    {
+        if (panel != null)
+        {
+            panel.SetActive(!panel.activeSelf); 
+        }
+    }
+
 
     private void StartMiniGame()
     {
@@ -46,12 +81,36 @@ public class PokemonNPC : MonoBehaviour
     {
         if (_isMiniGameFinished) return; // Не вызываем повторно
 
-        Debug.LogWarning("Activate end game");
+        // Запускаем корутину для обработки конца игры
+        StartCoroutine(EndMiniGameCoroutine(winnerName, loserName));
+    }
+
+    private IEnumerator EndMiniGameCoroutine(string winnerName, string loserName)
+    {
+        _miniGame.SetActive(false);
+
+        GameObject currentPannel = null;
+        // Активируем соответствующую панель
+        if (winnerName == "Player")
+        {
+            currentPannel = _winPanel;
+        }
+        else
+        {
+            currentPannel = _losePanel;
+        }
+        
+        ActivatePanel(currentPannel);
+        yield return new WaitForSeconds(2f);
+        ActivatePanel(currentPannel);
+
+
+        // Выполняем оставшуюся логику конца игры
         _switch.SwitchCamera();
         _castle.SetActive(true);
-        _miniGame.SetActive(false);
         _isMiniGameFinished = true;
 
-        //StartCoroutine(ResetMiniGameState());
+        Debug.LogWarning("Мини-игра завершена. Победитель: " + winnerName);
     }
+
 }

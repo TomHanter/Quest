@@ -12,8 +12,12 @@ public static class AssembledPickups
         {
             throw new ArgumentNullException(nameof(pickup), "Pickup cannot be null.");
         }
-        pickups.Add(pickup);
-    }
+        if (!pickups.Any(p => p.Name.Equals(pickup.Name, StringComparison.OrdinalIgnoreCase)))
+        {
+            pickups.Add(pickup);
+        }
+
+    }   
 
     public static void RemovePickup(int index)
     {

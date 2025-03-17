@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using static UnityEditor.Progress;
 
 namespace Assets.Scripts.TriggerOjects.Pickups
 {
@@ -158,7 +157,7 @@ namespace Assets.Scripts.TriggerOjects.Pickups
 
             // Находим Pickup по имени первого объекта
             var pickup = AssembledPickups.FindByName(inventoryNames[0]);
-            if (pickup == null)
+            if (ReferenceEquals(pickup, null))
             {
                 Debug.Log($"Pickup with name '{inventoryNames[0]}' not found.");
                 return;
@@ -167,7 +166,7 @@ namespace Assets.Scripts.TriggerOjects.Pickups
             // Проверяем путь
             string result = CheckPathExistence(pickup, inventoryNames);
             Pickup conclusion = AssembledPickups.FindByName(result);
-            if (conclusion != null)
+            if (!ReferenceEquals(conclusion, null))
             {
                 conclusion.Rendered = true;
             }
