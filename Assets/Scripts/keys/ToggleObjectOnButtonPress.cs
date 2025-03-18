@@ -20,6 +20,8 @@ public class ToggleObjectOnButtonPress : MonoBehaviour
     [field: SerializeField] public GameObject TargetObject { get; private set; }
     [SerializeField] private GameObject _objectToDisable;
 
+    private bool _isPaused = false;
+
     [Inject]
     private void Construct(PlayerMoveController playerMoveController)
     {
@@ -46,13 +48,24 @@ public class ToggleObjectOnButtonPress : MonoBehaviour
         {
             TargetObject.SetActive(false);
         }
-        if (TargetObject.activeSelf)
+
+
+        TogglePause();
+    }
+
+    public void TogglePause()
+    {
+        _isPaused = !_isPaused; // Переключаем состояние паузы
+
+        if (_isPaused)
         {
-            _objectToDisable.SetActive(false);
+            Time.timeScale = 0f; // Останавливаем время
+            Debug.Log("Игра на паузе");
         }
         else
         {
-            _objectToDisable.SetActive(true);
+            Time.timeScale = 1f; // Восстанавливаем время
+            Debug.Log("Игра продолжается");
         }
     }
 }
