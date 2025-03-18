@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
 
 namespace Assets.Scripts.Drag_Dropp
 {
@@ -34,11 +35,17 @@ namespace Assets.Scripts.Drag_Dropp
         public void OnBeginDrag(PointerEventData eventData)
         {
             Debug.Log("OnBeginDrag");
-
             destroible = true;
 
+            Transform itemsParent = FindParentWithName(transform, "Items");
+            //if (itemsParent != null)
+            //{
+            //    // Устанавливаем родителя для копии
+            //    dragCopy.transform.SetParent(itemsParent, false);
+            //}
+
             // Создаем копию объекта
-            dragCopy = Instantiate(gameObject, transform.position, transform.rotation, transform.parent);
+            dragCopy = Instantiate(gameObject, transform.position, transform.rotation, itemsParent);
 
             // Настраиваем копию
             RectTransform copyRectTransform = dragCopy.GetComponent<RectTransform>();
@@ -85,6 +92,20 @@ namespace Assets.Scripts.Drag_Dropp
         public void OnPointerDown(PointerEventData eventData)
         {
             Debug.Log("OnPointerDown");
+        }
+
+        private Transform FindParentWithName(Transform current, string name)
+        {
+            // Поднимаемся вверх по иерархии
+            while (current != null)
+            {
+                if (current.name == name)
+                {
+                    return current;
+                }
+                current = current.parent;
+            }
+            return null; // Если элемент не найден
         }
     }
 }

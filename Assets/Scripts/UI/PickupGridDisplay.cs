@@ -65,6 +65,15 @@ public class PickupGridDisplay : MonoBehaviour
         // Рассчитываем количество столбцов и строк
         int gridColumns = Mathf.FloorToInt((panelWidth + gridSpacing.x) / (prefabWidth + gridSpacing.x));
         int gridRows = Mathf.CeilToInt((float)pickups.Count / gridColumns);
+        if (gridColumns == 0 || gridRows == 0)
+        {
+            prefabRect = FindParentWithName(contentPanel, "View").GetComponent<RectTransform>();
+            panelWidth = prefabRect.rect.width;
+            panelHeight = prefabRect.rect.height;
+
+            gridColumns = Mathf.FloorToInt((panelWidth + gridSpacing.x) / (prefabWidth + gridSpacing.x));
+            gridRows = Mathf.CeilToInt((float)pickups.Count / gridColumns);
+        }
 
         // Смещение для учета pivot contentPanel (0.5, 0.5)
         float offsetX = -panelWidth / 2 + prefabWidth / 2; // Смещение по X для начала с левого края
@@ -129,5 +138,19 @@ public class PickupGridDisplay : MonoBehaviour
         {
             Debug.LogWarning("Не удалось найти компонент Image или TMP_Text в префабе.");
         }
+    }
+
+    private Transform FindParentWithName(Transform current, string name)
+    {
+        // Поднимаемся вверх по иерархии
+        while (current != null)
+        {
+            if (current.name == name)
+            {
+                return current;
+            }
+            current = current.parent;
+        }
+        return null; // Если элемент не найден
     }
 }
