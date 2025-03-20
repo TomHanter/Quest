@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Magnat
-    second: {fileID: 2100000, guid: 067825e8deea11b42b6a8868f000107e, type: 2}
+    second: {fileID: 2100000, guid: b919ff9389d146c498c05de351104b8f, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
