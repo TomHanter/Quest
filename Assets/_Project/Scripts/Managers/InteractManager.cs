@@ -63,8 +63,19 @@ public class InteractManager : MonoBehaviour
 
     private void Update()
     {
-        // Обработка текущего триггера
-        if (currentTriggerable != null && !hasInteracted)
+        //// Обработка текущего триггера
+        //if (currentTriggerable != null && currentTriggerable is Box)
+        //{
+        //    bool isInteract = InputManager.GetInstance().GetInteractPressed();
+        //    Debug.Log("Interacting with: " + currentTriggerable);
+        //    TryTrigger(currentTriggerable);
+        //    hasInteracted = true;
+        //    if (interactionIndicator != null)
+        //    {
+        //        interactionIndicator.SetActive(false);
+        //    }
+        //}
+        if (currentTriggerable != null && (currentTriggerable is Box || !hasInteracted))
         {
             bool isInteract = InputManager.GetInstance().GetInteractPressed();
 
@@ -87,7 +98,7 @@ public class InteractManager : MonoBehaviour
     // Пытаемся активировать триггер, если еще не активировали
     private void TryTrigger(ITriggerable trigger)
     {
-        if (!triggeredSet.Contains(trigger))
+        if (!triggeredSet.Contains(trigger) || trigger is Box)
         {
             trigger.Trrigered();
             triggeredSet.Add(trigger);

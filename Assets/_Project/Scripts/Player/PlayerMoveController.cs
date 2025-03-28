@@ -30,11 +30,15 @@ public class PlayerMoveController : MonoBehaviour
 
     private void Awake()
     {
-        Box box = FindObjectOfType<Box>();
-        if (box != null)
+        Box[] boxes = FindObjectsOfType<Box>();
+        foreach(Box box in boxes)
         {
-            box.OnActivated += CollidedWithMovingObject;
+            if (box != null)
+            {
+                box.OnActivated += CollidedWithMovingObject;
+            }
         }
+        
         
         _coll = GetComponent<BoxCollider>();
         _rb = GetComponent<Rigidbody>();
