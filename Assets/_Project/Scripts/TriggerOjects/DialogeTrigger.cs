@@ -29,14 +29,14 @@ internal class DialogeTrigger : MonoBehaviour, ICheckableTrigger
         if (CanTrigger(_indexForCheck) && _inkJSONDialogues.Count > 0)
         {
             if (dialogIndex > _inkJSONDialogues.Count - 1) dialogIndex = _inkJSONDialogues.Count - 1;
-            
+
             DialogueManager dialogueManager = DialogueManager.GetInstance();
 
             TextAsset selectedDialogue = _inkJSONDialogues[dialogIndex];
             dialogIndex++;
 
             dialogueManager.EnterDialogueMode(selectedDialogue);
-            if(dialogIndex == _inkJSONDialogues.Count) IsDone = true;
+            if (dialogIndex == _inkJSONDialogues.Count) IsDone = true;
         }
     }
 
@@ -60,16 +60,16 @@ internal class DialogeTrigger : MonoBehaviour, ICheckableTrigger
             // Ищем поле с указанным именем
             var field = dataType.GetField(_requeeredDataName);
 
-            if (field != null && field.FieldType == typeof(bool) && numberOfDialog == dialogIndex)
+            if (field != null && field.FieldType == typeof(bool) /*&& numberOfDialog == dialogIndex*/)
             {
                 // Получаем значение поля
                 bool value = (bool)field.GetValue(null);
 
-                if (!value)
+                // УДАЛИТЬ!!!!
+                if (value)
                 {
-                    // УДАЛИТЬ!!!!
                     dialogIndex = 1;
-                    return false; // Поле найдено, но равно false
+                    return true; // Поле найдено, но равно false
                 }
             }
         }
@@ -118,6 +118,7 @@ internal class DialogeTrigger : MonoBehaviour, ICheckableTrigger
         // Формируем тег
         string searchTag = parentName + "RequiredTrigger";
 
+
         if (!TagExists(searchTag))
         {
             Debug.LogWarning($"Тег '{searchTag}' не существует. Проверьте настройки тегов в Project Settings.", this);
@@ -127,7 +128,7 @@ internal class DialogeTrigger : MonoBehaviour, ICheckableTrigger
         // Ищем все объекты с этим тегом
         GameObject[] taggedObjects = GameObject.FindGameObjectsWithTag(searchTag);
 
-        if(taggedObjects != null)
+        if (taggedObjects != null)
         {
             //_requiredTriggers.Clear();
 
