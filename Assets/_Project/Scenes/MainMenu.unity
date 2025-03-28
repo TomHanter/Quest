@@ -333,7 +333,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: UI
+  m_text: "\u0417\u0432\u0443\u043A UI"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: d899f02ab6b1d2446b5934db22365142, type: 2}
   m_sharedMaterial: {fileID: 6341344959473378160, guid: d899f02ab6b1d2446b5934db22365142, type: 2}
