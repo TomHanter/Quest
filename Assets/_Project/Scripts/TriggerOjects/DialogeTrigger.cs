@@ -67,6 +67,8 @@ internal class DialogeTrigger : MonoBehaviour, ICheckableTrigger
 
                 if (!value)
                 {
+                    // УДАЛИТЬ!!!!
+                    dialogIndex = 1;
                     return false; // Поле найдено, но равно false
                 }
             }
