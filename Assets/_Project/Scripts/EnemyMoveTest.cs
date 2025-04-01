@@ -47,16 +47,16 @@ public class EnemyMoveTest : MonoBehaviour
         Vector3 movePlayerInputDirection = new Vector3(moveInput.x, 0, moveInput.y).normalized;
         Vector3 moveDirection = Vector3.zero;
 
-        // Получение угла из ориентации камеры
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         float cameraAngle = _cameraTrnsform.eulerAngles.y * Mathf.Deg2Rad;
 
-        // Вычисление тригонометрических значений
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         float sinAngle = Mathf.Sin(cameraAngle);
         float cosAngle = Mathf.Cos(cameraAngle);
         float cotAngle = cosAngle / sinAngle; // ctg(x) = cos(x) / sin(x)
         if (sinAngle != 0)
         {
-            // Формулы для moveDirection
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ moveDirection
             moveDirection.x = (movePlayerInputDirection.z + movePlayerInputDirection.x * cotAngle) / (sinAngle + cotAngle * cosAngle);
             moveDirection.z = (moveDirection.x * cosAngle - movePlayerInputDirection.x) / sinAngle;
         }
@@ -72,7 +72,7 @@ public class EnemyMoveTest : MonoBehaviour
         }
 
         Vector3 velocity = moveDirection * _runSpeed;
-        _rb.velocity = new Vector3(velocity.x, _rb.velocity.y, velocity.z);
+        _rb.linearVelocity = new Vector3(velocity.x, _rb.linearVelocity.y, velocity.z);
     }
 
 }
