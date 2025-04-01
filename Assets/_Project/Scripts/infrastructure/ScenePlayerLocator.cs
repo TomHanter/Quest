@@ -19,7 +19,8 @@ namespace Assets.Scripts.infrastructure
         {
             BindCameraTransform();
             InstantiateMainCharacter();
-            //BindCameraController();
+
+            BindCameraController();
         }
 
         private void BindCameraController()

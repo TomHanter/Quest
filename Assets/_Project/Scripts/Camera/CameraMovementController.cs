@@ -32,7 +32,7 @@ public class CameraMovementController : MonoBehaviour
         _player = player.gameObject.transform;
     }
 
-    void Start()
+    void Awake()
     {
         if (_player == null)
         {
