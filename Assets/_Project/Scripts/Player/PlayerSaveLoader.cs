@@ -23,6 +23,21 @@ public struct Vector3DTO
     }
 }
 
+[System.Serializable]
+public struct PlayerSaveData
+{
+    public Vector3DTO position;
+    public Vector3DTO rotation;
+    public string sceneName;
+
+    public PlayerSaveData(Vector3 position, Quaternion rotation, string sceneName)
+    {
+        this.position = new Vector3DTO(position);
+        this.rotation = new Vector3DTO(rotation.eulerAngles);
+        this.sceneName = sceneName;
+    }
+}
+
 public class PlayerSaveLoader : ISaveLoader
 {
     private Transform playerTransform;
@@ -32,24 +47,34 @@ public class PlayerSaveLoader : ISaveLoader
         playerTransform = transform;
     }
 
-
     public void LoadData()
     {
-        if (Repository.TryGetData(out Vector3DTO savedPosition))
+        if (Repository.TryGetData(out PlayerSaveData savedData))
         {
-            playerTransform.position = savedPosition.ToVector3();
-            //Debug.Log("Player position loaded: " + savedPosition);
+            PlayerSpawnData.SpawnPosition = savedData.position.ToVector3();
+            PlayerSpawnData.SpawnRotation = Quaternion.Euler(savedData.rotation.ToVector3());
+
+            if (!string.IsNullOrEmpty(savedData.sceneName))
+            {
+                UnityEngine.SceneManagement.SceneManager.LoadScene(savedData.sceneName);
+                Time.timeScale = 1;
+            }
         }
         else
         {
-            //Debug.LogWarning("No saved position found. Loading default position.");
+            //Debug.LogWarning("No saved data found. Loading default scene and position.");
         }
     }
 
     public void SaveData()
     {
-        Vector3DTO poosition = new Vector3DTO(playerTransform.position);
-        Repository.SetData(poosition);
-        //Debug.Log("Player position saved: " + playerTransform.position);
+        PlayerSaveData saveData = new PlayerSaveData(
+            playerTransform.position,
+            playerTransform.rotation,
+            UnityEngine.SceneManagement.SceneManager.GetActiveScene().name
+        );
+
+        Repository.SetData(saveData);
+        //Debug.Log("Player data saved: " + saveData.sceneName);
     }
 }

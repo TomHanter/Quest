@@ -15,6 +15,7 @@ TagManager:
   - BlacksmithRequiredTrigger
   - ChiefGuardRequiredTrigger
   - QuestForStorage
+  - Box
   layers:
   - Default
   - TransparentFX

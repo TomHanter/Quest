@@ -23,11 +23,11 @@ public sealed class SaveLoadManager : MonoBehaviour
         // Инициализация массива после получения трансформа игрока
         saveLoaders = new ISaveLoader[]
         {
-            //new PlayerSaveLoader(_playerTransform),
+            new PlayerSaveLoader(_playerTransform),
             new CollectionSaveLoader(AssembledPickups.GetAllPickups()),
         };
         //WriteJsonToFile();
-        LoadGame();
+        //LoadGame();
     }
 
     private void WriteJsonToFile()
@@ -84,6 +84,13 @@ public sealed class SaveLoadManager : MonoBehaviour
         }
 
         Repository.SaveState();
+    }
+
+    public bool CanLoad()
+    {
+        Repository.LoadState();
+
+        return Repository.HasAnyData();
     }
 
     //private void FixedUpdate()
