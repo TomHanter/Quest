@@ -27647,7 +27647,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SceneName: MainRoom
-  SpawnPosition: {x: -21.78, y: 2.13, z: 6.414}
+  SpawnPosition: {x: -21.6, y: 2.2, z: 4.5}
   SpawnEulerAngles: {x: 0, y: 180, z: 0}
 --- !u!65 &1292498192
 BoxCollider:

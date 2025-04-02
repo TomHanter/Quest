@@ -1500,7 +1500,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 534, y: -191}
+  m_AnchoredPosition: {x: 569.60004, y: -263.6}
   m_SizeDelta: {x: 360, y: 67.900024}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &797224719
@@ -2150,7 +2150,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 443, y: 32}
+  m_AnchoredPosition: {x: 478.6, y: -40.6}
   m_SizeDelta: {x: 360, y: 67.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1222735119
@@ -3711,7 +3711,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 486.5, y: -81.1}
+  m_AnchoredPosition: {x: 522.10004, y: -153.70001}
   m_SizeDelta: {x: 360, y: 67.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1790417393
@@ -4249,9 +4249,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 780228224}
-        m_TargetAssemblyTypeName: MenuUI, Assembly-CSharp
-        m_MethodName: StartGame
+      - m_Target: {fileID: 635231541}
+        m_TargetAssemblyTypeName: SaveLoadManager, Assembly-CSharp
+        m_MethodName: LoadGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4316,8 +4316,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 402, y: 126}
-  m_SizeDelta: {x: 360, y: 67.9}
+  m_AnchoredPosition: {x: 437.60004, y: 53.399986}
+  m_SizeDelta: {x: 390, y: 67.9}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2070464373
 GameObject:

@@ -99,7 +99,7 @@ Material:
     - _DetailSource: 0
     - _DetailSpecularIntensity: 0.2
     - _DstBlend: 0
-    - _EmissionIntensity: 0.34
+    - _EmissionIntensity: 2
     - _EnableDetailMask: 0
     - _EnableTriplanarProjection: 1
     - _GlossMapScale: 0
@@ -132,9 +132,10 @@ Material:
     - _Color: {r: 0.66518503, g: 0.66518503, b: 0.66518503, a: 1}
     - _DetailColor: {r: 1, g: 1, b: 1, a: 0}
     - _DetailSpecularColor: {r: 1, g: 1, b: 1, a: 0}
-    - _EmissionColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
+    - _EmissionColor: {r: 0.27416337, g: 0.4997531, b: 0.9528302, a: 1}
     - _GlobalXYTilingXYZWOffsetXY: {r: 1, g: 1, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 0}
     - _TriplanarXYTilingXYZWOffsetXY: {r: 1, g: 1, b: 0, a: 0}
   m_BuildTextureStacks: []
+  m_AllowLocking: 1
