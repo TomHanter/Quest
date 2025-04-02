@@ -74,7 +74,7 @@ public class PlayerMoveController : MonoBehaviour
             _movementComponent = closestCollidedObject.GetComponent<MovemtForMOvingObjects>(); 
             if (_movementComponent != null)
             {
-                //Debug.Log("Найден ближайший объект с компонентом MovemtForMOvingObjects: " + closestCollidedObject.name);
+                //Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ MovemtForMOvingObjects: " + closestCollidedObject.name);
                 _movementComponent.ChangeNeedToMovie();
                 _catchPlatform = !_catchPlatform;
                 Debug.Log("Player:" + _catchPlatform);
@@ -82,11 +82,11 @@ public class PlayerMoveController : MonoBehaviour
         }
         else
         {
-            Debug.Log("Ближайший объект с компонентом MovemtForMOvingObjects не найден.");
+            Debug.Log("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ MovemtForMOvingObjects пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.");
         }
     }
 
-    // Возможно, потом обновить алгоритм поиска
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     private GameObject FindClosestMovingObject()
     {
         MovemtForMOvingObjects[] movingComponents = FindObjectsOfType<MovemtForMOvingObjects>(); 
@@ -114,23 +114,23 @@ public class PlayerMoveController : MonoBehaviour
             Transform platform = _movementComponent.Platform;
             float step = _runSpeed * Time.deltaTime;
 
-            // Берем интервал к forward так только так можно добиться адекваетной дистанции от кубика
+            // пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ forward пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
             Vector3 targetPosition = platform.position - platform.forward * interval;
             Vector3 changedTargetPosition = targetPosition;
 
             //Debug.Log("changedTargetPosition " + changedTargetPosition);
 
-            // Просто меняем позицию т. к. тогда не возникает проблем с задержкой в движении игрока к позиции
+            // пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ. пїЅ. пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             transform.position = changedTargetPosition /*Vector3.MoveTowards(transform.position, changedTargetPosition, step)*/;
 
-            // Тут без разниции по скорость поворота большая
+            // пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             Quaternion targetRotation = platform.rotation;
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * _rotationSpeed);
             //transform.rotation = platform.rotation;
         }
         else
         {
-            Debug.LogWarning("Platform или _movementComponent не установлен!");
+            Debug.LogWarning("Platform пїЅпїЅпїЅ _movementComponent пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!");
         }
     }
 
@@ -141,16 +141,16 @@ public class PlayerMoveController : MonoBehaviour
         Vector3 movePlayerInputDirection = new Vector3(moveInput.x, 0, moveInput.y).normalized;
         Vector3 moveDirection = Vector3.zero;
 
-        // Получение угла из ориентации камеры
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         float cameraAngle = _cameraTrnsform.eulerAngles.y * Mathf.Deg2Rad;
 
-        // Вычисление тригонометрических значений
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         float sinAngle = Mathf.Sin(cameraAngle);
         float cosAngle = Mathf.Cos(cameraAngle);
         float cotAngle = cosAngle / sinAngle; // ctg(x) = cos(x) / sin(x)
         if (sinAngle != 0)
         {
-            // Формулы для moveDirection
+            // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ moveDirection
             moveDirection.x = (movePlayerInputDirection.z + movePlayerInputDirection.x * cotAngle) / (sinAngle + cotAngle * cosAngle);
             moveDirection.z = (moveDirection.x * cosAngle - movePlayerInputDirection.x) / sinAngle;
             //Debug.Log(moveDirection);
@@ -167,6 +167,6 @@ public class PlayerMoveController : MonoBehaviour
         }
 
         Vector3 velocity = moveDirection * _runSpeed;
-        _rb.velocity = new Vector3(velocity.x, _rb.velocity.y, velocity.z);
+        _rb.linearVelocity = new Vector3(velocity.x, _rb.linearVelocity.y, velocity.z);
     }
 }
