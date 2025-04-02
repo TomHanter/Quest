@@ -274,7 +274,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &6264641
 RectTransform:
   m_ObjectHideFlags: 0
@@ -655,7 +655,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &39553592
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1682,9 +1682,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 218478197}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 37.89, y: 1.1, z: 10.36}
-  m_LocalScale: {x: 1.5, y: 2, z: 2.30685}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 37.89, y: 1.0999999, z: 10.36}
+  m_LocalScale: {x: 1.5000006, y: 2, z: 2.3068504}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 981875868}
@@ -1704,8 +1704,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SceneName: Forge
-  SpawnPosition: {x: -4.5, y: -0.002110958, z: 4.09}
-  SpawnEulerAngles: {x: 0, y: 90, z: 0}
+  SpawnPosition: {x: 11.73, y: 0.05, z: -0.4}
+  SpawnEulerAngles: {x: 0, y: -30, z: 0}
 --- !u!65 &218478200
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3010,9 +3010,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 370577504}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 20.42, y: 1.1, z: 17.414}
-  m_LocalScale: {x: 1.5, y: 2, z: 2.30685}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 20.42, y: 1.0999999, z: 17.414}
+  m_LocalScale: {x: 1.5000006, y: 2, z: 2.3068504}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1793455809}
@@ -3031,8 +3031,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SceneName: Storage
-  SpawnPosition: {x: -4.5, y: -0.002110958, z: 4.09}
-  SpawnEulerAngles: {x: 0, y: 90, z: 0}
+  SpawnPosition: {x: -27.93, y: 0.145, z: -5.044}
+  SpawnEulerAngles: {x: 0, y: 180, z: 0}
 --- !u!65 &370577507
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3761,7 +3761,6 @@ MonoBehaviour:
   doors:
   - {fileID: 370577506}
   - {fileID: 218478199}
-  _playerSpawnPoint: {fileID: 1890123944}
 --- !u!1 &469402431
 GameObject:
   m_ObjectHideFlags: 0
@@ -12575,13 +12574,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1890123943}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 7.12, y: -0.002110958, z: 7.58}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2859251394975671733}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
 --- !u!1 &1927261711
 GameObject:
   m_ObjectHideFlags: 0
@@ -132591,8 +132590,8 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 370577505}
   - {fileID: 218478198}
+  - {fileID: 370577505}
   - {fileID: 133776509}
   - {fileID: 583014667}
   - {fileID: 1890123944}

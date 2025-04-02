@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using Zenject;
 
-namespace Assets.Scripts.infrastructure
+namespace Assets.Scripts.Infrastructure
 {
     public class ScenePlayerLocator : MonoInstaller
     {
@@ -19,7 +15,6 @@ namespace Assets.Scripts.infrastructure
         {
             BindCameraTransform();
             InstantiateMainCharacter();
-
             BindCameraController();
         }
 
@@ -36,25 +31,26 @@ namespace Assets.Scripts.infrastructure
                 return;
             }
 
+            // Определяем начальную позицию: берём из PlayerSpawnData, если она задана
+            Vector3 spawnPosition = PlayerSpawnData.SpawnPosition != Vector3.zero
+                ? PlayerSpawnData.SpawnPosition
+                : StartPoint.position;
+            Quaternion spawnRotation = PlayerSpawnData.SpawnRotation != Quaternion.identity
+                ? PlayerSpawnData.SpawnRotation
+                : StartPoint.rotation;
 
             PlayerMoveController playerMoveController = Container
-                .InstantiatePrefabForComponent<PlayerMoveController>(Prefab, StartPoint.position, Prefab.transform.rotation, Parent);
+                .InstantiatePrefabForComponent<PlayerMoveController>(Prefab, spawnPosition, spawnRotation, Parent);
 
             Container
                 .Bind<PlayerMoveController>()
                 .FromInstance(playerMoveController)
                 .AsSingle();
-
-            // Выполняем инъекцию вручную, так как объект уже был создан
-            //Container.QueueForInject(playerMoveController);
         }
 
         private void BindCameraTransform()
         {
-            Container
-                        .Bind<Transform>()
-                        .FromInstance(CameraTransform)
-                        .AsSingle();
+            Container.Bind<Transform>().FromInstance(CameraTransform).AsSingle();
         }
     }
 }

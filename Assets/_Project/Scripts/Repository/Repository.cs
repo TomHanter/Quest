@@ -62,4 +62,9 @@ public static class Repository
         value = default;
         return false;
     }
+
+    public static bool HasAnyData()
+    {
+        return currentState.Count > 0;
+    }
 }
