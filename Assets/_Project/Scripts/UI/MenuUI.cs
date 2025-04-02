@@ -12,7 +12,6 @@ public class MenuUI : MonoBehaviour
     public void OpenSettings()
     {
 
-
     }
 
 }
