@@ -54,13 +54,13 @@ public class LoadEnotherScene : MonoBehaviour
         UpdateLighting();
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
+        if (_playerSpawnPoint != null)
         {
-            player.transform.localPosition = PlayerSpawnData.SpawnPosition;
-            player.transform.rotation = PlayerSpawnData.SpawnRotation;
+            _playerSpawnPoint.localPosition = PlayerSpawnData.SpawnPosition;
+            _playerSpawnPoint.rotation = PlayerSpawnData.SpawnRotation;
         }
 
-        SceneManager.sceneLoaded -= OnSceneLoaded;
+        //SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void UpdateLighting()
