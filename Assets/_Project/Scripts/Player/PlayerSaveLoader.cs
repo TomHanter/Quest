@@ -66,6 +66,11 @@ public class PlayerSaveLoader : ISaveLoader
         }
     }
 
+    public void LoadDefaulData()
+    {
+        throw new NotImplementedException();
+    }
+
     public void SaveData()
     {
         PlayerSaveData saveData = new PlayerSaveData(
