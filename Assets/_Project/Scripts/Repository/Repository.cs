@@ -67,4 +67,27 @@ public static class Repository
     {
         return currentState.Count > 0;
     }
+
+    public static void ClearSaveData()
+    {
+        try
+        {
+            // Очищаем данные в памяти
+            currentState.Clear();
+
+            // Удаляем файл сохранения, если он существует
+            if (File.Exists(FilePath))
+            {
+                File.Delete(FilePath);
+                Debug.Log("Save file deleted successfully");
+            }
+
+            // Создаем новый пустой словарь для последующих операций
+            currentState = new Dictionary<string, string>();
+        }
+        catch (IOException ex)
+        {
+            Debug.LogError($"Error clearing save data: {ex.Message}");
+        }
+    }
 }

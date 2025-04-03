@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -27,32 +28,41 @@ public class CollectionSaveLoader : ISaveLoader
                 Debug.Log($"Pickup {pickup.Name}");
             }
         }
-        else
-        {
-            string jsonString = @"
-{
-  ""List`1"": ""[{\""Name\"":\""Conc1\"",\""Type\"":\""Type\"",\""Description\"":\""Conc1\"",\""HideDescription\"":\""Hide Description\"",\""Picture\"":\""Picture\"",\""Rendered\"":false,\""RenderedOnScreen\"":false,\""SimpleDict\"":{},\""NestedDict\"":{},\""NestedList\"":[]},{\""Name\"":\""Conc2\"",\""Type\"":\""Type\"",\""Description\"":\""Conc2\"",\""HideDescription\"":\""Hide Description\"",\""Picture\"":\""Picture\"",\""Rendered\"":false,\""RenderedOnScreen\"":false,\""SimpleDict\"":{},\""NestedDict\"":{},\""NestedList\"":[]},{\""Name\"":\""Conc3\"",\""Type\"":\""Type\"",\""Description\"":\""Conc3\"",\""HideDescription\"":\""Hide Description\"",\""Picture\"":\""Picture\"",\""Rendered\"":false,\""RenderedOnScreen\"":false,\""SimpleDict\"":{},\""NestedDict\"":{},\""NestedList\"":[]},{\""Name\"":\""Conc4\"",\""Type\"":\""Type\"",\""Description\"":\""Conc4\"",\""HideDescription\"":\""Hide Description\"",\""Picture\"":\""Picture\"",\""Rendered\"":false,\""RenderedOnScreen\"":false,\""SimpleDict\"":{},\""NestedDict\"":{},\""NestedList\"":[]},{\""Name\"":\""Conc5\"",\""Type\"":\""Type\"",\""Description\"":\""Conc5\"",\""HideDescription\"":\""Hide Description\"",\""Picture\"":\""Picture\"",\""Rendered\"":false,\""RenderedOnScreen\"":false,\""SimpleDict\"":{},\""NestedDict\"":{},\""NestedList\"":[]}]""
-}";
+        //else
+        //    LoadDefaulData();
+    }
 
-            // Десериализация JSON-строки
-            try
+    public void LoadDefaulData()
+    {
+        TextAsset textAsset = Resources.Load<TextAsset>("SavsInformation/Inventory/Conclusions");
+        if (textAsset == null)
+        {
+            Debug.LogError("File not found: Resources/SavsInformation/Inventory/Conclusions");
+            return;
+        }
+
+        try
+        {
+            // Десериализуем напрямую в список объектов
+            List<PickupData> savedPickups = JsonConvert.DeserializeObject<List<PickupData>>(textAsset.text);
+
+            if (savedPickups != null && savedPickups.Count > 0)
             {
-                var jsonData = JsonConvert.DeserializeObject<Dictionary<string, string>>(jsonString);
-                if (jsonData != null && jsonData.ContainsKey("List`1"))
-                {
-                    string pickupsJson = jsonData["List`1"];
-                    savedPickups = JsonConvert.DeserializeObject<List<PickupData>>(pickupsJson);
-                    LoadPickups(savedPickups);
-                }
-                else
-                {
-                    Debug.LogWarning("Invalid JSON format. 'List`1' key not found.");
-                }
+                LoadPickups(savedPickups);
+                Debug.Log($"Successfully loaded {savedPickups.Count} items");
             }
-            catch (JsonException ex)
+            else
             {
-                Debug.LogError("Failed to deserialize JSON: " + ex.Message);
+                Debug.LogWarning("Loaded list is empty or null");
             }
+        }
+        catch (JsonException ex)
+        {
+            Debug.LogError($"JSON error: {ex.Message}\nJSON content: {textAsset.text}");
+        }
+        catch (Exception ex)
+        {
+            Debug.LogError($"General error: {ex.Message}");
         }
     }
 
